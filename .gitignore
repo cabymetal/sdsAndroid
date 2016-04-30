@@ -182,3 +182,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
