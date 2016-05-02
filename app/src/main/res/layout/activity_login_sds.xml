@@ -58,6 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/action_sign_in_short"
+                android:onClick="login()"
                 android:layout_marginTop="@dimen/activity_horizontal_margin"
                 />
         </LinearLayout>

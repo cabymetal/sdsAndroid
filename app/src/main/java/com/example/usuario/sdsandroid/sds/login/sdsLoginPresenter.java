@@ -5,6 +5,6 @@ package com.example.usuario.sdsandroid.sds.login;
  * Personal ASUS
  */
 public interface SdsLoginPresenter {
-    void validateLogin(String user, String password);
+    int validateLogin(String user, String password);
     void onDestroy();
 }
