@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">SdsAndroid</string>
+    <string name="app_name">Stradata App</string>
 
     <!-- Strings related to login -->
-    <string name="usuario_sds">Usuario</string>
+    <string name="usuario_sds">User</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
