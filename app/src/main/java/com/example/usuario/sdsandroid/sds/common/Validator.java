@@ -7,9 +7,9 @@ import android.text.TextUtils;
  * Personal ASUS
  */
 public class Validator {
-    public boolean isEmpty(String text) { return (TextUtils.isEmpty(text))?true:false; }
+    public boolean isEmpty(String text) { return (TextUtils.isEmpty(text)); }
 
-    public boolean isTooShort(String pwd) { return (pwd.length() <= 3)? true: false; }
+    public boolean isTooShort(String pwd) { return (pwd.length() <= 3); }
 
-
+    public boolean isOnlyNumber(String user) { return (TextUtils.isDigitsOnly(user));}
 }

@@ -1,15 +1,21 @@
 package com.example.usuario.sdsandroid.sds.login;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
-import com.example.usuario.sdsandroid.R;
+import com.example.usuario.sdsandroid.sds.R;
 import com.example.usuario.sdsandroid.sds.common.TextResourceManager;
 import com.example.usuario.sdsandroid.sds.common.Validator;
 import com.example.usuario.sdsandroid.sds.login.Contract.LoginView;
 
-import butterknife.BindView;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -22,20 +28,28 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     private Contract.SdsLoginPresenter mPresenter;
 
     //UI Elements
-    @BindView(R.id.username) private EditText mUserView;
-    @BindView(R.id.password) private EditText mPasswordView;
+    @Bind(R.id.username) public EditText mUserView;
+    @Bind(R.id.passwordSds) public EditText mPasswordView;
+    @Bind(R.id.login_text) public EditText mLoginTextView;
+    //UI Layouts
+    @Bind(R.id.login_form) public View mLoginForm;
+    @Bind(R.id.login_progress) public View mLoginProgress;
 
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_login_sds);
         ButterKnife.bind(this);
 
+
         mPresenter = new LoginPresenterImpl(this, new LoginInteractorImpl(), new Validator(),
                 new TextResourceManager(getResources()));
+
+        Log.d("CREATE", "comes to on Create Method");
     }
 
-    @OnClick(R.id.signin)
+    @OnClick(R.id.signinButton)
     public void login(){
+        Log.d("BUTTON", "comes to the method login");
         String usr = mUserView.getText().toString();
         String pwd = mPasswordView.getText().toString();
 
@@ -47,31 +61,88 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         super.onDestroy();
     }
 
-    @Override
-    public void setUserError(String text) {
+    @Override public void setUserError(String text) {
         mUserView.setError(text);
         mUserView.requestFocus();
     }
 
-    @Override
-    public void setPwdError(String text) {
+    @Override public void setPwdError(String text) {
         mPasswordView.setError(text);
         mPasswordView.requestFocus();
     }
 
+    @Override public void setShortError(String text){
+        mPasswordView.setError(text);
+        mPasswordView.requestFocus();
+    }
+
+    @Override public void setOnlyNumberError(String text){
+        mUserView.setError(text);
+        mUserView.requestFocus();
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     @Override
     public void showProgressDialog() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            //there is animation API.
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
+            mLoginForm.setVisibility(View.GONE);
+            mLoginForm.animate().setDuration(shortAnimTime).alpha(0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mLoginForm.setVisibility(View.GONE);
+                }
+            });
+
+            mLoginProgress.setVisibility(View.VISIBLE);
+            mLoginProgress.animate().setDuration(shortAnimTime).alpha(1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mLoginProgress.setVisibility(View.VISIBLE);
+                }
+            });
+
+            mLoginTextView.setVisibility(View.VISIBLE);
+        }else{
+            mLoginForm.setVisibility(View.GONE);
+            mLoginProgress.setVisibility(View.VISIBLE);
+            mLoginTextView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void hideProgressDialog() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            //there is animation API.
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-    }
+            mLoginForm.setVisibility(View.VISIBLE);
+            mLoginForm.animate().setDuration(shortAnimTime).alpha(1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mLoginForm.setVisibility(View.VISIBLE);
+                }
+            });
 
-    @Override
-    public void setShortError(String text){
-        mPasswordView.setError(text);
-        mPasswordView.requestFocus();
+            mLoginProgress.setVisibility(View.GONE);
+            mLoginProgress.animate().setDuration(shortAnimTime).alpha(0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    mLoginProgress.setVisibility(View.GONE);
+                }
+            });
+            mLoginTextView.setVisibility(View.GONE);
+        }else{
+            mLoginForm.setVisibility(View.VISIBLE);
+            mLoginProgress.setVisibility(View.GONE);
+            mLoginTextView.setVisibility(View.GONE);
+        }
     }
 }

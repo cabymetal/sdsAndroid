@@ -11,6 +11,8 @@ public interface Contract {
          void showProgressDialog();
          void hideProgressDialog();
          void setShortError(String s);
+
+         void setOnlyNumberError(String s);
      }
 
      interface SdsLoginPresenter {
@@ -21,5 +23,7 @@ public interface Contract {
     interface LoginInteractorListener{
         void onLoginSuccess();
         void onLoginError(Exception e);
+
+        void onLoginFailedAuth();
     }
 }

@@ -1,8 +1,6 @@
 package com.example.usuario.sdsandroid.sds.login;
 
-import android.text.TextUtils;
-
-import com.example.usuario.sdsandroid.R;
+import com.example.usuario.sdsandroid.sds.R;
 import com.example.usuario.sdsandroid.sds.common.TextResourceManager;
 import com.example.usuario.sdsandroid.sds.common.Validator;
 import com.example.usuario.sdsandroid.sds.login.Contract.LoginView;
@@ -23,35 +21,6 @@ public class LoginPresenterImpl implements Contract.SdsLoginPresenter, Contract.
         mLoginInteractor = loginInteractor;
         mValidator = validator;
         this.mTextResourceManager = textResourceManager;
-    }
-
-    /*
-     * return a value that corresponds to the error status
-     * 1 : the user is empty
-     * 2 : the user is only Digits
-     * 3 : the password is empty
-     * 4 : the password is too short
-     * 0 : all correct
-     */
-
-    public int validateLogin(String user, String pwd){
-        int errorCode = 0;
-        //empty username
-        if(TextUtils.isEmpty(user)){
-            errorCode = 1;
-        }
-        //only Digits
-        if(!TextUtils.isEmpty(user) && !TextUtils.isDigitsOnly(user)){
-            errorCode = 2;
-        }
-        if(TextUtils.isEmpty(pwd)){
-            errorCode = 3;
-        }
-        if(pwd.length() < 4){
-            errorCode = 4;
-        }
-
-        return errorCode;
     }
 
     @Override
@@ -76,6 +45,11 @@ public class LoginPresenterImpl implements Contract.SdsLoginPresenter, Contract.
             return;
         }
 
+        if(mValidator.isOnlyNumber(user)){
+            mView.setOnlyNumberError(mTextResourceManager.get(R.string.error_invalid_username));
+            return;
+        }
+
         mView.showProgressDialog();
         mLoginInteractor.login(user, pwd, this);
     }
@@ -88,6 +62,11 @@ public class LoginPresenterImpl implements Contract.SdsLoginPresenter, Contract.
     @Override
     public void onLoginError(Exception e) {
         mView.hideProgressDialog();
+    }
 
+    @Override
+    public void onLoginFailedAuth(){
+        mView.setPwdError(mTextResourceManager.get(R.string.error_incorrect_password));
+        mView.hideProgressDialog();
     }
 }
