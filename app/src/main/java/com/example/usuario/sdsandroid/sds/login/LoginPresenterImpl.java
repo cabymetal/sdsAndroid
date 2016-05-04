@@ -1,6 +1,7 @@
 package com.example.usuario.sdsandroid.sds.login;
 
 import com.example.usuario.sdsandroid.sds.R;
+import com.example.usuario.sdsandroid.sds.common.SessionTO;
 import com.example.usuario.sdsandroid.sds.common.TextResourceManager;
 import com.example.usuario.sdsandroid.sds.common.Validator;
 import com.example.usuario.sdsandroid.sds.login.Contract.LoginView;
@@ -55,8 +56,9 @@ public class LoginPresenterImpl implements Contract.SdsLoginPresenter, Contract.
     }
 
     @Override
-    public void onLoginSuccess() {
-        mView.hideProgressDialog();
+    public void onLoginSuccess(SessionTO sessionTO) {
+        //TODO redirect to new view
+        mView.startCore(sessionTO);
     }
 
     @Override

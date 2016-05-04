@@ -2,6 +2,8 @@ package com.example.usuario.sdsandroid.sds.login;
 
 import android.os.AsyncTask;
 
+import com.example.usuario.sdsandroid.sds.common.SessionTO;
+
 /**
  * Created by Carlos Murillo on 02/05/2016.
  * Personal ASUS
@@ -55,7 +57,8 @@ public class LoginInteractorImpl {
         @Override
         public void onPostExecute(Boolean success){
             if(success){
-                listener.onLoginSuccess();
+                SessionTO sessionTO = new SessionTO(user, password);
+                listener.onLoginSuccess(sessionTO);
             }else{
                 listener.onLoginFailedAuth();
             }

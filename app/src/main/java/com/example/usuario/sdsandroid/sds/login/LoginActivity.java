@@ -3,6 +3,7 @@ package com.example.usuario.sdsandroid.sds.login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +12,10 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.usuario.sdsandroid.sds.R;
+import com.example.usuario.sdsandroid.sds.common.SessionTO;
 import com.example.usuario.sdsandroid.sds.common.TextResourceManager;
 import com.example.usuario.sdsandroid.sds.common.Validator;
+import com.example.usuario.sdsandroid.sds.core.search.SearchActivity;
 import com.example.usuario.sdsandroid.sds.login.Contract.LoginView;
 
 import butterknife.Bind;
@@ -144,5 +147,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
             mLoginProgress.setVisibility(View.GONE);
             mLoginTextView.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void startCore(SessionTO sessionTO){
+        Intent intent = new Intent(this, SearchActivity.class);
+        intent.putExtra("user", sessionTO.getUser());
+        intent.putExtra("pwd", sessionTO.getPwd());
+        startActivity(intent);
     }
 }

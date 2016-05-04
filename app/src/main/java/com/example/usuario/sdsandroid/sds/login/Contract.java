@@ -1,5 +1,7 @@
 package com.example.usuario.sdsandroid.sds.login;
 
+import com.example.usuario.sdsandroid.sds.common.SessionTO;
+
 /**
  * Created by Carlos Murillo on 02/05/2016.
  * Personal ASUS
@@ -13,6 +15,7 @@ public interface Contract {
          void setShortError(String s);
 
          void setOnlyNumberError(String s);
+         void startCore(SessionTO sessionTO);
      }
 
      interface SdsLoginPresenter {
@@ -21,7 +24,7 @@ public interface Contract {
     }
 
     interface LoginInteractorListener{
-        void onLoginSuccess();
+        void onLoginSuccess(SessionTO sessionTO);
         void onLoginError(Exception e);
 
         void onLoginFailedAuth();
