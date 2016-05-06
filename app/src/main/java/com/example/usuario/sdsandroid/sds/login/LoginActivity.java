@@ -6,7 +6,9 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -46,6 +48,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
         mPresenter = new LoginPresenterImpl(this, new LoginInteractorImpl(), new Validator(),
                 new TextResourceManager(getResources()));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.app_name);
+        }
 
         Log.d("CREATE", "comes to on Create Method");
     }
@@ -155,5 +166,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         intent.putExtra("user", sessionTO.getUser());
         intent.putExtra("pwd", sessionTO.getPwd());
         startActivity(intent);
+        finish();
     }
 }

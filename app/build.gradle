@@ -25,8 +25,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile('com.mikepenz:materialdrawer:5.2.2@aar') {
+    compile('com.mikepenz:materialdrawer:5.2.2@aar') { // material menu
         transitive = true
     }
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'de.hdodenhof:circleimageview:1.2.1' //library to the circleImage
+
 }

@@ -5,7 +5,7 @@
     <string name="usuario_sds">User</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="prompt_login_in">Logging in please wait...</string>
+    <string name="prompt_login_in">Logging in please wait&#8230;</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -16,6 +16,20 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="drawer_item_settings">Lista</string>
+    <string name="drawer_item_settings">List</string>
     <string name="drawer_item_home">Search</string>
+    <string name="drawer_title_home">Apps</string>
+
+    <string name="tool_name_search">Search Tool</string>
+    <string name="tool_name_proc">Proc.</string>
+    <string name="tool_menu_percentage">Percentage:</string>
+    <string name="tool_menu_name">Search Name</string>
+    <string name="tool_menu_id">Identification</string>
+    <string name="tool_menu_search_button">Button</string>
+    <string-array name="tool_menu_options">
+        <item>CC</item>
+        <item>NIT</item>
+        <item>Passport</item>
+    </string-array>
+
 </resources>
