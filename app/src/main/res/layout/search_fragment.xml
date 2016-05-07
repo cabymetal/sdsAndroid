@@ -5,13 +5,13 @@
               android:layout_height="match_parent"
               style="@style/AppTheme"
               android:padding="@dimen/tool_margin">
-    <TextView
+    <!-- <TextView
         android:background="@color/colorToolBg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tool_name_search"
         android:textColor="@color/colorHintText"
-        android:textSize="35sp"/>
+        android:textSize="35sp"/> -->
 
         <EditText
             android:id="@+id/search_name"
@@ -42,14 +42,21 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:text="@string/tool_menu_percentage"/>
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="4"
+
                 android:max="100"
+                />
+            <TextView
+                android:id="@+id/seekbar_progress"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 />
         </LinearLayout>
 

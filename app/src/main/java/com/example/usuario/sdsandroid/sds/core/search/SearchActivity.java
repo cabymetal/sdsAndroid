@@ -1,15 +1,11 @@
 package com.example.usuario.sdsandroid.sds.core.search;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.usuario.sdsandroid.sds.R;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -55,17 +51,14 @@ public class SearchActivity extends AppCompatActivity {
         }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeButtonEnabled(false);
             actionBar.setTitle(R.string.app_name);
+            actionBar.setSubtitle(R.string.tool_name_search);
         }
         //read the intent
         Intent intent = getIntent();
         Drawer result = createMenu(intent);
-
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tool_menu_options, R.layout.search_fragment);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        //result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
 
         //once the menu is built create the initial Fragment
         SearchFragment searchFragment = new SearchFragment();
@@ -86,9 +79,9 @@ public class SearchActivity extends AppCompatActivity {
                 .withTranslucentStatusBar(true)
                 .addProfiles( new ProfileDrawerItem()
                         .withName(user)
-                        .withTextColor(Color.BLACK)
                         .withEmail(password).withIcon(getResources().getDrawable(R.drawable.sdslogo))
-                        .withTextColor(Color.BLACK))
+                        )
+                .withHeaderBackground(R.drawable.bg_1)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
@@ -101,8 +94,9 @@ public class SearchActivity extends AppCompatActivity {
         SecondaryDrawerItem[] permits = new SecondaryDrawerItem[3];
         int i= 0;
         for(String permit : PERMISSIONS){
-            permits[i++] = (SecondaryDrawerItem) new SecondaryDrawerItem().withName(permit)
+            permits[i] = (SecondaryDrawerItem) new SecondaryDrawerItem().withName(permit)
             .withIdentifier(i);
+            i++;
         }
 
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName(R.string.drawer_title_home)
@@ -121,10 +115,16 @@ public class SearchActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
                         long identifier = drawerItem.getIdentifier();
-                        Toast.makeText(getApplicationContext(),identifier+"-"+position, Toast.LENGTH_LONG);
+                        if(identifier==0){
+
+                        }else if(identifier==1){
+
+                        }else if(identifier==2){
+
+                        }
 
 
-                        return false;
+                        return true;
                     }
                 })
                 .build();
