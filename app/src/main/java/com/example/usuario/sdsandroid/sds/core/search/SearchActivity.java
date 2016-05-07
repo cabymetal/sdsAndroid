@@ -7,6 +7,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.usuario.sdsandroid.sds.R;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -39,6 +42,7 @@ public class SearchActivity extends AppCompatActivity {
     private String password;
 
 
+
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_menu_sds);
@@ -54,8 +58,25 @@ public class SearchActivity extends AppCompatActivity {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setTitle(R.string.app_name);
         }
-        //read from intent
+        //read the intent
         Intent intent = getIntent();
+        Drawer result = createMenu(intent);
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.tool_menu_options, R.layout.search_fragment);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        //once the menu is built create the initial Fragment
+        SearchFragment searchFragment = new SearchFragment();
+        // In case this activity was started with special instructions from an
+        // Intent, pass the Intent's extras to the fragment as arguments
+        // firstFragment.setArguments(getIntent().getExtras());
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_element, searchFragment).commit();
+    }
+
+    private Drawer createMenu(Intent intent){
         user = intent.getStringExtra("user");
         password = intent.getStringExtra("pwd");
 
@@ -80,11 +101,13 @@ public class SearchActivity extends AppCompatActivity {
         SecondaryDrawerItem[] permits = new SecondaryDrawerItem[3];
         int i= 0;
         for(String permit : PERMISSIONS){
-            permits[i++] = (SecondaryDrawerItem) new SecondaryDrawerItem().withName(permit);
+            permits[i++] = (SecondaryDrawerItem) new SecondaryDrawerItem().withName(permit)
+            .withIdentifier(i);
         }
 
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName(R.string.drawer_title_home);
-        new DrawerBuilder().withActivity(this)
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName(R.string.drawer_title_home)
+                .withSelectable(false);
+        Drawer drawer = new DrawerBuilder().withActivity(this)
                 .withAccountHeader(accountHeader)
                 .withTranslucentStatusBar(true)
                 .withToolbar(mToolbar)
@@ -97,10 +120,15 @@ public class SearchActivity extends AppCompatActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
+                        long identifier = drawerItem.getIdentifier();
+                        Toast.makeText(getApplicationContext(),identifier+"-"+position, Toast.LENGTH_LONG);
+
+
                         return false;
                     }
                 })
                 .build();
+        return drawer;
     }
 
 }

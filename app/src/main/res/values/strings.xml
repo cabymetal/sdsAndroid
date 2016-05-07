@@ -25,7 +25,7 @@
     <string name="tool_menu_percentage">Percentage:</string>
     <string name="tool_menu_name">Search Name</string>
     <string name="tool_menu_id">Identification</string>
-    <string name="tool_menu_search_button">Button</string>
+    <string name="tool_menu_search_button">Submit</string>
     <string-array name="tool_menu_options">
         <item>CC</item>
         <item>NIT</item>

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/tool_name_search"
         android:textColor="@color/colorHintText"
-        android:textSize="40sp"/>
+        android:textSize="35sp"/>
 
         <EditText
             android:id="@+id/search_name"
@@ -49,7 +49,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:progressDrawable="@color/colorPrimaryLight"
                 android:max="100"
                 />
         </LinearLayout>
@@ -60,6 +59,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text=""/>
+        android:text="@string/tool_menu_search_button"/>
 
 </LinearLayout>
