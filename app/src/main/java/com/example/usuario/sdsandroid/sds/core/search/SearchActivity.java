@@ -37,6 +37,8 @@ public class SearchActivity extends AppCompatActivity {
     private String user;
     private String password;
 
+    private ActionBar mActionBar;
+
 
 
     public void onCreate(Bundle savedInstance) {
@@ -49,11 +51,11 @@ public class SearchActivity extends AppCompatActivity {
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(false);
-            actionBar.setTitle(R.string.app_name);
-            actionBar.setSubtitle(R.string.tool_name_search);
+        mActionBar = getSupportActionBar();
+        if (mActionBar != null) {
+            mActionBar.setHomeButtonEnabled(false);
+            mActionBar.setTitle(R.string.app_name);
+            mActionBar.setSubtitle(R.string.tool_name_search);
         }
         //read the intent
         Intent intent = getIntent();
@@ -116,19 +118,29 @@ public class SearchActivity extends AppCompatActivity {
                         // do something with the clicked item :D
                         long identifier = drawerItem.getIdentifier();
                         if(identifier==0){
-
+                            mActionBar.setSubtitle(R.string.tool_name_search);
+                            SearchFragment searchFragment =  new SearchFragment();
+                            changeFragment(searchFragment);
                         }else if(identifier==1){
-
+                            mActionBar.setSubtitle(R.string.tool_name_proc);
+                            ProcFragment procFragment = new ProcFragment();
+                            changeFragment(procFragment);
                         }else if(identifier==2){
-
+                            mActionBar.setSubtitle(R.string.tool_name_fisc);
+                            FiscFragment fiscFragment = new FiscFragment();
+                            changeFragment(fiscFragment);
                         }
-
-
-                        return true;
+                        return false; //so the menu closes when the users selects one selection
                     }
                 })
                 .build();
         return drawer;
     }
+
+    private void changeFragment(android.support.v4.app.Fragment fragment){
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_element, fragment).commit();
+    }
+
+
 
 }

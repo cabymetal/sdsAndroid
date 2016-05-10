@@ -10,15 +10,15 @@ import android.view.ViewGroup;
 import com.example.usuario.sdsandroid.sds.R;
 
 /**
- * Created by Carlos Murillo on 06/05/2016.
+ * Created by Carlos Murillo on 07/05/2016.
  * Personal ASUS
  */
-public class ProcFragment extends Fragment {
+public class FiscFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstance){
 
-        View view = inflater.inflate(R.layout.proc_fragment, container, false);
+        View view = inflater.inflate(R.layout.fisc_fragment, container, false);
         return view;
 
     }

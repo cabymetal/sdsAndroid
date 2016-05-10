@@ -10,6 +10,8 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_username">Must not contain only numbers</string>
+    <string name="error_search_empty_user">this cannot be empty along with the id</string>
+    <string name="error_search_empty_id">this cannot be empty along with the user</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
@@ -22,6 +24,7 @@
 
     <string name="tool_name_search">Search Tool</string>
     <string name="tool_name_proc">Proc.</string>
+    <string name="tool_name_fisc">Other Fragment</string>
     <string name="tool_menu_percentage">Percentage:</string>
     <string name="tool_menu_name">Search Name</string>
     <string name="tool_menu_id">Identification</string>

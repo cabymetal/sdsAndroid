@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @OnClick(R.id.signinButton)
     public void login(){
-        Log.d("BUTTON", "comes to the method login");
         String usr = mUserView.getText().toString();
         String pwd = mPasswordView.getText().toString();
 
