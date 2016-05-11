@@ -30,8 +30,10 @@ import butterknife.OnClick;
  * Important thing to notice here is that the fragment must instantiate the presenter in MVP Pattern
  */
 public class SearchFragment  extends Fragment implements Contract.SearchToolView{
-   //min percentage
+    private static final String EXTRA_USER = "search.user";
+    private static final String EXTRA_PASSWORD = "search.password";
     private final int MIN_PERCENTAGE = 80;
+
     //UI attributes
     private SeekBar mSeekBar;
     private TextView mTextView;
@@ -39,22 +41,28 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
     @Bind(R.id.search_name)public EditText mSearchUser;
     @Bind(R.id.search_id)  public EditText mSearchId;
     private int percentage;
+
     //Presenter
-    private Contract.CorePresenter mCorePresenter;
+    private Contract.SearchPresenter mSearchPresenter;
 
     //Logged parameters
     private String loggedUser;
     private String loggedPassword;
 
+    public static SearchFragment newInstance(String user, String password){
+        Bundle bundle = new Bundle();
+        bundle.putString(EXTRA_USER, user);
+        bundle.putString(EXTRA_PASSWORD, password);
 
-    public SearchFragment(String user, String password){
-        super();
-        loggedPassword = password;
-        loggedUser = user;
+        SearchFragment searchFragment= new SearchFragment();
+        searchFragment.setArguments(bundle);
+        return searchFragment;
     }
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstance){
-
         View view = inflater.inflate(R.layout.search_fragment, container, false);
         mSpinner = (Spinner) view.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence> (this.getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.tool_menu_options));
@@ -84,10 +92,17 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
         });
 
         //initialize the presenter
-        mCorePresenter = new CorePresenterImpl(this, new Validator(), new TextResourceManager(getResources()));
+        mSearchPresenter = new SearchPresenterImpl(this, new Validator(), new TextResourceManager(getResources()));
         return view;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        loggedUser = bundle.getString(EXTRA_USER);
+        loggedPassword = bundle.getString(EXTRA_PASSWORD);
+    }
 
     @OnClick(R.id.form_search_submit)
     public void searchPersonList(){
@@ -99,8 +114,8 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
             setMinPercentage();
 
         //call the method
-        mCorePresenter.onSearchButtonSubmitClick(loggedUser, loggedPassword, searchUser, searchId, docType, percentage);
-        
+        mSearchPresenter.onSearchButtonSubmitClick(loggedUser, loggedPassword, searchUser, searchId, docType, percentage);
+
     }
 
 

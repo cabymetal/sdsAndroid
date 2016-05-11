@@ -6,12 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-
     </style>
 
-    <!-- toolbar style -->
-
-
+    <style name="ThemeOverlayToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--item name="android:textColorPrimary">@color/md_white_1000</item> -->
+    </style>
 
 </resources>

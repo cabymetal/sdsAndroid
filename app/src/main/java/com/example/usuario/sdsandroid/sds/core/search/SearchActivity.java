@@ -27,9 +27,6 @@ import butterknife.ButterKnife;
  * Personal ASUS
  */
 public class SearchActivity extends AppCompatActivity {
-    private Toolbar mToolbar;
-
-
     //TODO read this from the session intent
     private String[] PERMISSIONS = new String[]{"List", "Search", "Proc"};
     private String[] icons = new String[]{"", "", ""};
@@ -37,33 +34,32 @@ public class SearchActivity extends AppCompatActivity {
     private String user;
     private String password;
 
-    private ActionBar mActionBar;
-
-
-
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_menu_sds);
         ButterKnife.bind(this);
-        //proba ahi no se
+
         //set the text of the
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
-        mActionBar = getSupportActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         if (mActionBar != null) {
-            mActionBar.setHomeButtonEnabled(false);
+            //mActionBar.setHomeButtonEnabled(false);
+            mActionBar.setDisplayHomeAsUpEnabled(false);
+
             mActionBar.setTitle(R.string.app_name);
             mActionBar.setSubtitle(R.string.tool_name_search);
         }
         //read the intent
         Intent intent = getIntent();
-        Drawer result = createMenu(intent);
-        //result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+        Drawer result = createMenu(intent, mToolbar);
+        result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
 
         //once the menu is built create the initial Fragment
-        SearchFragment searchFragment = new SearchFragment();
+        SearchFragment searchFragment = SearchFragment.newInstance(user, password);
+
         // In case this activity was started with special instructions from an
         // Intent, pass the Intent's extras to the fragment as arguments
         // firstFragment.setArguments(getIntent().getExtras());
@@ -71,7 +67,7 @@ public class SearchActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_element, searchFragment).commit();
     }
 
-    private Drawer createMenu(Intent intent){
+    private Drawer createMenu(Intent intent, Toolbar toolbar){
         user = intent.getStringExtra("user");
         password = intent.getStringExtra("pwd");
 
@@ -106,8 +102,7 @@ public class SearchActivity extends AppCompatActivity {
         Drawer drawer = new DrawerBuilder().withActivity(this)
                 .withAccountHeader(accountHeader)
                 .withTranslucentStatusBar(true)
-                .withToolbar(mToolbar)
-                .withActionBarDrawerToggle(false)
+                .withToolbar(toolbar)
                 .addDrawerItems(item1,
                         new DividerDrawerItem())
                 .addDrawerItems(permits)
@@ -117,18 +112,26 @@ public class SearchActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
                         long identifier = drawerItem.getIdentifier();
+                        ActionBar actionBar = getSupportActionBar();
                         if(identifier==0){
-                            mActionBar.setSubtitle(R.string.tool_name_search);
-                            SearchFragment searchFragment =  new SearchFragment();
-                            changeFragment(searchFragment);
+
+                            if(actionBar != null) {
+                                actionBar.setSubtitle(R.string.tool_name_search);
+                                SearchFragment searchFragment = SearchFragment.newInstance(user, password);
+                                changeFragment(searchFragment);
+                            }
                         }else if(identifier==1){
-                            mActionBar.setSubtitle(R.string.tool_name_proc);
-                            ProcFragment procFragment = new ProcFragment();
-                            changeFragment(procFragment);
+                            if(actionBar != null) {
+                                actionBar.setSubtitle(R.string.tool_name_proc);
+                                ProcFragment procFragment = new ProcFragment();
+                                changeFragment(procFragment);
+                            }
                         }else if(identifier==2){
-                            mActionBar.setSubtitle(R.string.tool_name_fisc);
-                            FiscFragment fiscFragment = new FiscFragment();
-                            changeFragment(fiscFragment);
+                            if(actionBar != null) {
+                                actionBar.setSubtitle(R.string.tool_name_fisc);
+                                FiscFragment fiscFragment = new FiscFragment();
+                                changeFragment(fiscFragment);
+                            }
                         }
                         return false; //so the menu closes when the users selects one selection
                     }

@@ -13,10 +13,16 @@ public interface Contract {
         void backToLogin();
     }
 
-    interface CorePresenter{
+    interface SearchPresenter{
         void onDestroy();
         void onSearchButtonSubmitClick(String loggedUser, String loggedPassword, String searchUser,
                                        String searchId, String docType, int percentage);
+
+    }
+
+    interface SearchInteractorListener{
+        void onSearchSuccess();
+        void onSearchError();
 
     }
 }
