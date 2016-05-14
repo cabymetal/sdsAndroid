@@ -1,7 +1,6 @@
 package com.example.usuario.api.repositories.person;
 
 import com.example.usuario.api.pojo.ResponseList;
-import com.example.usuario.api.repositories.person.pojo.Coincidence;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -12,5 +11,5 @@ import retrofit2.http.GET;
  */
 public interface PersonService {
     @GET("info")
-    Call<ResponseList<Coincidence>> getCoincidences();
+    Call<ResponseList> getCoincidences();
 }

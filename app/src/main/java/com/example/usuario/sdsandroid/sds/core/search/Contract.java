@@ -20,7 +20,7 @@ public interface Contract {
 
     }
 
-    interface SearchInteractorListener{
+    interface SearchInteractor{
         void onSearchSuccess();
         void onSearchError();
 

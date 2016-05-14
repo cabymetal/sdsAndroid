@@ -14,9 +14,6 @@ public class LoginInteractorImpl {
         // Request
         DummyLoginTask loginTask = new DummyLoginTask(user, password, listener);
         loginTask.execute();
-
-
-
     }
 
 

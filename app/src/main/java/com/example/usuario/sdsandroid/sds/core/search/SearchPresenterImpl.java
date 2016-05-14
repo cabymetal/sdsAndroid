@@ -8,15 +8,17 @@ import com.example.usuario.sdsandroid.sds.common.Validator;
  * Created by Carlos Murillo on 08/05/2016.
  * Personal ASUS
  */
-public class SearchPresenterImpl implements Contract.SearchPresenter {
+public class SearchPresenterImpl implements Contract.SearchPresenter, Contract.SearchInteractor {
     private SearchFragment mSearchFragment;
     private TextResourceManager mTextResourceManager;
     private Validator mValidator;
+    private SearchInteractorImpl mSearchInteractorListener;
 
-    public SearchPresenterImpl(SearchFragment fragment, Validator validator, TextResourceManager textResourceManager){
+    public SearchPresenterImpl(SearchFragment fragment, Validator validator, TextResourceManager textResourceManager, SearchInteractorImpl searchInteractorListener){
         mSearchFragment = fragment;
         mValidator = validator;
         mTextResourceManager = textResourceManager;
+        mSearchInteractorListener = searchInteractorListener;
     }
 
     @Override
@@ -32,6 +34,16 @@ public class SearchPresenterImpl implements Contract.SearchPresenter {
             return;
         }
 
+        mSearchInteractorListener.performSearch(loggedUser,loggedPassword, this);
+    }
+
+    @Override
+    public void onSearchSuccess() {
+
+    }
+
+    @Override
+    public void onSearchError() {
 
     }
 }

@@ -13,6 +13,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SdsApi.init("http://demo8014364.mockable.io/info");
+        SdsApi.init("http://demo8014364.mockable.io/");
     }
+
+
 }

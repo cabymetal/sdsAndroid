@@ -19,6 +19,7 @@ import com.example.usuario.sdsandroid.sds.common.Validator;
 import com.example.usuario.sdsandroid.sds.login.LoginActivity;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 ;
@@ -64,6 +65,7 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstance){
         View view = inflater.inflate(R.layout.search_fragment, container, false);
+        ButterKnife.bind(this, view);
         mSpinner = (Spinner) view.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence> (this.getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.tool_menu_options));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -92,7 +94,7 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
         });
 
         //initialize the presenter
-        mSearchPresenter = new SearchPresenterImpl(this, new Validator(), new TextResourceManager(getResources()));
+        mSearchPresenter = new SearchPresenterImpl(this, new Validator(), new TextResourceManager(getResources()), new SearchInteractorImpl());
         return view;
     }
 
