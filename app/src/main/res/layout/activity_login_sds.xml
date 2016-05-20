@@ -31,6 +31,7 @@
             android:id="@+id/logo_search"
             android:src="@drawable/logo"
             android:scaleType="center"
+            android:contentDescription="@string/app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,7 +44,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"
             android:visibility="gone" />
-        <EditText
+        <TextView
             android:id="@+id/login_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,7 +71,6 @@
                 android:id="@+id/passwordSds"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/colorHintText"
                 android:hint="@string/prompt_password"
                 android:inputType="textPassword"
                 android:maxLines="1"

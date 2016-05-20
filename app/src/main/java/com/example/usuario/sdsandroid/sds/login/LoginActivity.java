@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.usuario.sdsandroid.sds.R;
 import com.example.usuario.sdsandroid.sds.common.SessionTO;
@@ -35,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     //UI Elements
     @Bind(R.id.username) public EditText mUserView;
     @Bind(R.id.passwordSds) public EditText mPasswordView;
-    @Bind(R.id.login_text) public EditText mLoginTextView;
+    @Bind(R.id.login_text) public TextView mLoginTextView;
     //UI Layouts
     @Bind(R.id.login_form) public View mLoginForm;
     @Bind(R.id.login_progress) public View mLoginProgress;

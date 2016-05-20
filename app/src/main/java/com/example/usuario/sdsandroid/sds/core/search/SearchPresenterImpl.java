@@ -1,5 +1,8 @@
 package com.example.usuario.sdsandroid.sds.core.search;
 
+import android.util.Log;
+
+import com.example.usuario.api.pojo.ResponseList;
 import com.example.usuario.sdsandroid.sds.R;
 import com.example.usuario.sdsandroid.sds.common.TextResourceManager;
 import com.example.usuario.sdsandroid.sds.common.Validator;
@@ -23,6 +26,7 @@ public class SearchPresenterImpl implements Contract.SearchPresenter, Contract.S
 
     @Override
     public void onDestroy() {
+        mSearchInteractorListener.onDeattach();
         mSearchFragment = null;
     }
 
@@ -38,12 +42,14 @@ public class SearchPresenterImpl implements Contract.SearchPresenter, Contract.S
     }
 
     @Override
-    public void onSearchSuccess() {
-
+    public void onSearchSuccess(ResponseList responseList) {
+        //call the view and and pass the ResponseList as parameter
+        mSearchFragment.startDetailActivity(responseList);
     }
 
     @Override
-    public void onSearchError() {
-
+    public void onSearchError(Throwable error) {
+        Log.e("service_error", error.getMessage());
+        return;
     }
 }

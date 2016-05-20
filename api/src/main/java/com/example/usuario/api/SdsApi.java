@@ -1,6 +1,7 @@
 package com.example.usuario.api;
 
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 /**
@@ -13,6 +14,7 @@ public class SdsApi {
 
     public static void init(String baseUrl){
         retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .build();
     }

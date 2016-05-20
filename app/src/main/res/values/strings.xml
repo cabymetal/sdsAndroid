@@ -29,10 +29,20 @@
     <string name="tool_menu_name">Search Name</string>
     <string name="tool_menu_id">Identification</string>
     <string name="tool_menu_search_button">Submit</string>
+    <string name="tool_search_searching_text">Searching…</string>
     <string-array name="tool_menu_options">
         <item>CC</item>
         <item>NIT</item>
         <item>Passport</item>
     </string-array>
+
+    <string name="search_detail_title">Result Coincidence</string>
+    <string name="card_title">Coincidence</string>
+    <string name="card_name_coincidente">Name:</string>
+    <string name="card_phone_number">Phone Numbers: </string>
+    <string name="card_id">Stradata Id</string>
+    <string name="card_nacionality">Nacionality: </string>
+
+
 
 </resources>

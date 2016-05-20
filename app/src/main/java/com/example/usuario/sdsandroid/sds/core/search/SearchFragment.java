@@ -13,6 +13,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.usuario.api.pojo.ResponseList;
 import com.example.usuario.sdsandroid.sds.R;
 import com.example.usuario.sdsandroid.sds.common.TextResourceManager;
 import com.example.usuario.sdsandroid.sds.common.Validator;
@@ -41,6 +42,7 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
     private Spinner mSpinner;
     @Bind(R.id.search_name)public EditText mSearchUser;
     @Bind(R.id.search_id)  public EditText mSearchId;
+    @Bind(R.id.search_status_viewgroup) public ViewGroup mSearchStatus;
     private int percentage;
 
     //Presenter
@@ -73,6 +75,10 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
 
         mSeekBar = (SeekBar) view.findViewById(R.id.seekBar);
         mTextView = (TextView) view.findViewById(R.id.seekbar_progress);
+
+        mSearchStatus.setVisibility(View.VISIBLE);
+
+
 
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -117,18 +123,18 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
 
         //call the method
         mSearchPresenter.onSearchButtonSubmitClick(loggedUser, loggedPassword, searchUser, searchId, docType, percentage);
-
+        mSearchStatus.setVisibility(View.VISIBLE);
     }
 
 
     @Override
     public void setUserError(String error) {
-        mSearchUser.setText(error);
+        mSearchUser.setError(error);
     }
 
     @Override
     public void setIdError(String error) {
-        mSearchId.setText(error);
+        mSearchId.setError(error);
     }
 
     @Override
@@ -139,6 +145,12 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
     @Override
     public void backToLogin() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
+    }
+    //this function recieves te list and passit as parameter to the next view
+    public void startDetailActivity(ResponseList responseList) {
+        Intent intent = new Intent(getActivity(), SearchDetailActivity.class);
+        intent.putExtra("XML_RESPONSE", responseList);
         startActivity(intent);
     }
 }
