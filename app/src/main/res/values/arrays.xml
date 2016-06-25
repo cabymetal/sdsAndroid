@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="list_names">
+        <item>OFAC</item>
+        <item>IFS</item>
+        <item>ISID</item>
+        <item>ASDS</item>
+        <item>SDDF</item>
+    </string-array>
+    <string-array name="list_descriptions">
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur ornare massa non tristique. Vivamus tempus nisl ut ullamcorper imperdiet.</item>
+        <item>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent eu ligula arcu. Nunc condimentum nulla ac libero euismod imperdiet.</item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit</item>
+        <item>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam efficitur ornare massa non tristique. Vivamus tempus nisl ut ullamcorper imperdiet. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent eu ligula arcu. Nunc condimentum nulla ac libero euismod imperdiet. In commodo sapien nunc, id aliquam lorem posuere in. Vestibulum ex justo, egestas nec leo sit amet, molestie cursus est.</item>
+        <item>Ut ut massa mollis, vestibulum est nec, porttitor sapien.</item>
+    </string-array>
+</resources>

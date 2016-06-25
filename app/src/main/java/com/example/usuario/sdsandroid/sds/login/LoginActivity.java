@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,6 +40,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Bind(R.id.login_form) public View mLoginForm;
     @Bind(R.id.login_progress) public View mLoginProgress;
 
+
+
     public void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_login_sds);
@@ -58,17 +59,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         if (actionBar != null) {
             actionBar.setTitle(R.string.app_name);
         }
-
-        Log.d("CREATE", "comes to on Create Method");
     }
 
     @OnClick(R.id.signinButton)
     public void login(){
         String usr = mUserView.getText().toString();
         String pwd = mPasswordView.getText().toString();
-
         mPresenter.onButtonLoginClick(usr, pwd);
     }
+
 
     public void onDestroy(){
         mPresenter.onDestroy();

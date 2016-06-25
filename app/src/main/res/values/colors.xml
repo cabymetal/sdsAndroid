@@ -6,4 +6,5 @@
     <color name="colorBg">#EBEBEB</color>
     <color name="colorToolBg">#76aa2f</color>
     <color name="colorHintText">#000000</color>
+    <color name="medium_grey">#9E9E9E</color>
 </resources>

@@ -50,6 +50,7 @@ public class SearchPresenterImpl implements Contract.SearchPresenter, Contract.S
     @Override
     public void onSearchError(Throwable error) {
         Log.e("service_error", error.getMessage());
-        return;
+        mSearchFragment.setStatusError(mTextResourceManager.get(R.string.error_service_error));
+
     }
 }

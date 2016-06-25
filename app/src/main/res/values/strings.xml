@@ -37,12 +37,13 @@
     </string-array>
 
     <string name="search_detail_title">Result Coincidence</string>
+    <string name="search_detail_subtitle">Search Results</string>
     <string name="card_title">Coincidence</string>
     <string name="card_name_coincidente">Name:</string>
     <string name="card_phone_number">Phone Numbers: </string>
     <string name="card_id">Stradata Id</string>
     <string name="card_nacionality">Nacionality: </string>
-
+    <string name="error_service_error">An error happened connecting to web service</string>
 
 
 </resources>

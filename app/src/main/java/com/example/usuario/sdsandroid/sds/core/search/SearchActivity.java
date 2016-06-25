@@ -2,12 +2,17 @@ package com.example.usuario.sdsandroid.sds.core.search;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.example.usuario.sdsandroid.sds.R;
+import com.example.usuario.sdsandroid.sds.core.scanner.ScannerFragment;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -16,9 +21,11 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
@@ -28,11 +35,16 @@ import butterknife.ButterKnife;
  */
 public class SearchActivity extends AppCompatActivity {
     //TODO read this from the session intent
-    private String[] PERMISSIONS = new String[]{"List", "Search", "Proc"};
+    private String[] PERMISSIONS = new String[]{"List", "Search", "Proc", "Scan cc"};
     private String[] icons = new String[]{"", "", ""};
 
     private String user;
     private String password;
+
+    public final String KEY_USER = "USER";
+    public final String KEY_PWD = "PASSWORD";
+
+    @Bind(R.id.tabs) public TabLayout mTabLayout;
 
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -40,7 +52,7 @@ public class SearchActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         //set the text of the
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar_core);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
@@ -48,7 +60,6 @@ public class SearchActivity extends AppCompatActivity {
         if (mActionBar != null) {
             //mActionBar.setHomeButtonEnabled(false);
             mActionBar.setDisplayHomeAsUpEnabled(false);
-
             mActionBar.setTitle(R.string.app_name);
             mActionBar.setSubtitle(R.string.tool_name_search);
         }
@@ -56,6 +67,12 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Drawer result = createMenu(intent, mToolbar);
         result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
+
+        ViewPager viewPager = (ViewPager) findViewById(R.id.fragment_container_element);
+        setupViewPager(viewPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         //once the menu is built create the initial Fragment
         SearchFragment searchFragment = SearchFragment.newInstance(user, password);
@@ -67,6 +84,19 @@ public class SearchActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_element, searchFragment).commit();
     }
 
+    public void setupViewPager(ViewPager viewPager){
+        Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter.addFragment(SearchFragment.newInstance(user,password), "Datos");
+        adapter.addFragment(new ListCheckFragment(), "Listas");
+        viewPager.setAdapter(adapter);
+    }
+
+    public void onSaveInstanceState(Bundle outState){
+        outState.putString(KEY_USER, user);
+        outState.putString(KEY_PWD, password);
+        super.onSaveInstanceState(outState);
+    }
+
     private Drawer createMenu(Intent intent, Toolbar toolbar){
         user = intent.getStringExtra("user");
         password = intent.getStringExtra("pwd");
@@ -76,20 +106,15 @@ public class SearchActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
                 .addProfiles( new ProfileDrawerItem()
-                        .withName(user)
-                        .withEmail(password).withIcon(getResources().getDrawable(R.drawable.sdslogo))
-                        )
+                    .withName(user)
+                    .withEmail(password).withIcon(getResources().getDrawable(R.drawable.sdslogo))
+                )
                 .withHeaderBackground(R.drawable.bg_1)
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        return false;
-                    }
-                })
+                .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
                 .build();
 
         // TODO: 05/05/2016 - READ THE PERMISSIONS FROM DE THE SESSION DATA OR INTENT
-        SecondaryDrawerItem[] permits = new SecondaryDrawerItem[3];
+        SecondaryDrawerItem[] permits = new SecondaryDrawerItem[4];
         int i= 0;
         for(String permit : PERMISSIONS){
             permits[i] = (SecondaryDrawerItem) new SecondaryDrawerItem().withName(permit)
@@ -106,35 +131,36 @@ public class SearchActivity extends AppCompatActivity {
                 .addDrawerItems(item1,
                         new DividerDrawerItem())
                 .addDrawerItems(permits)
-
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // do something with the clicked item :D
-                        long identifier = drawerItem.getIdentifier();
-                        ActionBar actionBar = getSupportActionBar();
-                        if(identifier==0){
-
-                            if(actionBar != null) {
-                                actionBar.setSubtitle(R.string.tool_name_search);
-                                SearchFragment searchFragment = SearchFragment.newInstance(user, password);
-                                changeFragment(searchFragment);
-                            }
-                        }else if(identifier==1){
-                            if(actionBar != null) {
-                                actionBar.setSubtitle(R.string.tool_name_proc);
-                                ProcFragment procFragment = new ProcFragment();
-                                changeFragment(procFragment);
-                            }
-                        }else if(identifier==2){
-                            if(actionBar != null) {
-                                actionBar.setSubtitle(R.string.tool_name_fisc);
-                                FiscFragment fiscFragment = new FiscFragment();
-                                changeFragment(fiscFragment);
-                            }
+                .withOnDrawerItemClickListener((view, position, drawerItem) -> {
+                    // do something with the clicked item :D
+                    long identifier = drawerItem.getIdentifier();
+                    ActionBar actionBar = getSupportActionBar();
+                    if(identifier==0){
+                        if(actionBar != null) {
+                            actionBar.setSubtitle(R.string.tool_name_search);
+                            SearchFragment searchFragment = SearchFragment.newInstance(user, password);
+                            changeFragment(searchFragment);
                         }
-                        return false; //so the menu closes when the users selects one selection
+                    }else if(identifier==1){
+                        if(actionBar != null) {
+                            actionBar.setSubtitle(R.string.tool_name_proc);
+                            ProcFragment procFragment = new ProcFragment();
+                            changeFragment(procFragment);
+                        }
+                    }else if(identifier==2){
+                        if(actionBar != null) {
+                            actionBar.setSubtitle(R.string.tool_name_fisc);
+                            FiscFragment fiscFragment = new FiscFragment();
+                            changeFragment(fiscFragment);
+                        }
+                    }else if(identifier==3){
+                        if(actionBar != null) {
+                            actionBar.setSubtitle(R.string.tool_name_fisc);
+                            ScannerFragment scannerFragment = new ScannerFragment();
+                            changeFragment(scannerFragment);
+                        }
                     }
+                    return false; //so the menu closes when the users selects one selection
                 })
                 .build();
         return drawer;
@@ -144,6 +170,33 @@ public class SearchActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_element, fragment).commit();
     }
 
+    static class Adapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
+        public Adapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
 
 }

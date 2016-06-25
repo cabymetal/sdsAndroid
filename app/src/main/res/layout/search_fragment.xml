@@ -12,14 +12,20 @@
         android:text="@string/tool_name_search"
         android:textColor="@color/colorHintText"
         android:textSize="35sp"/> -->
-
-        <EditText
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
             android:id="@+id/search_name"
             android:layout_marginTop="@dimen/activity_horizontal_login_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/tool_menu_name"
             />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <EditText
             android:id="@+id/search_id"
             android:layout_marginTop="@dimen/activity_horizontal_login_margin"
@@ -27,6 +33,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/tool_menu_id"
             />
+        </android.support.design.widget.TextInputLayout>
 
         <Spinner
             android:layout_marginTop="@dimen/activity_horizontal_login_margin"
@@ -38,11 +45,12 @@
             android:layout_marginTop="@dimen/activity_horizontal_login_margin"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/material_drawer_account_header_dropdown">
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:textSize="18sp"
                 android:text="@string/tool_menu_percentage"/>
             <SeekBar
                 android:id="@+id/seekBar"
@@ -80,6 +88,7 @@
             android:layout_height="wrap_content"
             android:text="@string/tool_search_searching_text"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:visibility="gone"
             />
         <ProgressBar
 
@@ -88,8 +97,17 @@
             android:layout_marginStart="@dimen/item_padding_left"
             android:layout_marginLeft="@dimen/item_padding_left"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/search_error_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:visibility="gone"
+        />
 
 
 </LinearLayout>

@@ -1,6 +1,10 @@
 package com.example.usuario.sdsandroid.sds.core.search;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -43,6 +47,7 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
     @Bind(R.id.search_name)public EditText mSearchUser;
     @Bind(R.id.search_id)  public EditText mSearchId;
     @Bind(R.id.search_status_viewgroup) public ViewGroup mSearchStatus;
+    @Bind(R.id.search_error_status) public TextView mErrorStatus;
     private int percentage;
 
     //Presenter
@@ -99,6 +104,8 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
             }
         });
 
+        showProgressDialog(false);
+
         //initialize the presenter
         mSearchPresenter = new SearchPresenterImpl(this, new Validator(), new TextResourceManager(getResources()), new SearchInteractorImpl());
         return view;
@@ -121,9 +128,47 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
         if( percentage < MIN_PERCENTAGE)
             setMinPercentage();
 
+        //show the progress bar
+        showProgressDialog(true);
+
         //call the method
         mSearchPresenter.onSearchButtonSubmitClick(loggedUser, loggedPassword, searchUser, searchId, docType, percentage);
         mSearchStatus.setVisibility(View.VISIBLE);
+    }
+
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    public void showProgressDialog(boolean isVisible){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            //there is animation API.
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mSearchStatus.setVisibility(isVisible? View.VISIBLE: View.GONE);
+            mSearchStatus.animate().setDuration(shortAnimTime)
+                    .alpha(isVisible?1:0).setListener(
+                        new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            mSearchStatus.setVisibility(isVisible? View.VISIBLE: View.GONE);
+                        }
+                    });
+
+            mErrorStatus.setVisibility(isVisible?View.GONE:View.INVISIBLE);
+            mErrorStatus.animate().setDuration(shortAnimTime)
+                    .alpha(isVisible? 0 : 1).setListener(
+                    new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            mErrorStatus.setVisibility(isVisible? View.GONE : View.VISIBLE);
+                        }
+                    }
+            );
+        }else{
+            mSearchStatus.setVisibility(isVisible? View.VISIBLE: View.GONE);
+            mErrorStatus.setVisibility(isVisible? View.GONE: View.VISIBLE);
+        }
     }
 
 
@@ -137,6 +182,11 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
         mSearchId.setError(error);
     }
 
+    public void setStatusError(String error){
+        mErrorStatus.setText(error);
+        mErrorStatus.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void setMinPercentage() {
         percentage = MIN_PERCENTAGE;
@@ -147,7 +197,7 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
     }
-    //this function recieves te list and passit as parameter to the next view
+    //this function recieves te list and pass it as parameter to the next view
     public void startDetailActivity(ResponseList responseList) {
         Intent intent = new Intent(getActivity(), SearchDetailActivity.class);
         intent.putExtra("XML_RESPONSE", responseList);

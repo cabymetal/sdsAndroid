@@ -10,8 +10,6 @@
     >
 
     <include
-        android:id="@+id/toolbar"
-
         layout="@layout/menu_toolbar" />
 
 
@@ -59,22 +57,30 @@
             android:orientation="vertical"
             android:layout_weight="2"
             >
-            <EditText
-                android:id="@+id/username"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/usuario_sds"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/usuario_sds"
-                android:maxLines="1"
-                android:singleLine="true"/>
-
-            <EditText
-                android:id="@+id/passwordSds"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                />
+                >
+                <EditText
+                    android:id="@+id/passwordSds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/signinButton"
@@ -82,8 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/action_sign_in_short"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                />
+                android:layout_marginTop="@dimen/activity_horizontal_margin"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

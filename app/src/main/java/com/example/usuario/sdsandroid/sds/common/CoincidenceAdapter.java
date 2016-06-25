@@ -40,6 +40,7 @@ public class CoincidenceAdapter extends RecyclerView.Adapter<CoincidenceAdapter.
             personName = (TextView)itemView.findViewById(R.id.name_coincidence);
             personNacionality = (TextView)itemView.findViewById(R.id.nacionality_coincidence);
             personPhone = (TextView) itemView.findViewById(R.id.phone_numbers_coincidence);
+
         }
 
         public TextView getPersonId(){
