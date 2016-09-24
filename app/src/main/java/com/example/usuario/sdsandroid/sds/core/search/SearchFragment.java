@@ -8,6 +8,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewCompat;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +51,7 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
     @Bind(R.id.search_id)  public EditText mSearchId;
     @Bind(R.id.search_status_viewgroup) public ViewGroup mSearchStatus;
     @Bind(R.id.search_error_status) public TextView mErrorStatus;
+    @Bind(R.id.list_title_transition) public TextView mTitleList;
     private int percentage;
 
     //Presenter
@@ -134,6 +138,38 @@ public class SearchFragment  extends Fragment implements Contract.SearchToolView
         //call the method
         mSearchPresenter.onSearchButtonSubmitClick(loggedUser, loggedPassword, searchUser, searchId, docType, percentage);
         mSearchStatus.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.search_list)
+    public void launchListActivity(){
+        ListCheckActivity listCheckActivity = new ListCheckActivity();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setSharedElementEnterTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.change_text_trasition));
+            setExitTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.fade));
+
+            listCheckActivity.setSharedElementEnterTransition(TransitionInflater.from(getActivity())
+                .inflateTransition(R.transition.change_text_trasition));
+            listCheckActivity.setEnterTransition(TransitionInflater.from(getActivity())
+                .inflateTransition(android.R.transition.explode));
+
+            //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+            //        mTitleList, mTitleList.getTransitionName());
+            //startActivity(intent /*options.toBundle()*/);
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("ACTION", mTitleList.getText().toString());
+        listCheckActivity.setArguments(bundle);
+
+        ViewCompat.setTransitionName(mTextView, getString(R.string.transition_text_name));
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_container_element, listCheckActivity)
+                .addToBackStack("transaction")
+                .addSharedElement(mTextView, getString(R.string.transition_text_name))
+                .commit();
+
     }
 
 

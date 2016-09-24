@@ -30,6 +30,9 @@
         <activity android:name=".core.search.SearchDetailActivity"
                   android:label="@string/search_detail_title">
         </activity>
+        <activity android:name=".core.search.SearchDetailContent"
+                  android:label="Stradata App">
+        </activity>
 
     </application>
 

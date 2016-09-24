@@ -1,8 +1,11 @@
 package com.example.usuario.sdsandroid.sds.login;
 
-import android.os.AsyncTask;
+import com.example.usuario.api.repositories.person.PersonRepository;
 
-import com.example.usuario.sdsandroid.sds.common.SessionTO;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * Created by Carlos Murillo on 02/05/2016.
@@ -10,14 +13,33 @@ import com.example.usuario.sdsandroid.sds.common.SessionTO;
  */
 public class LoginInteractorImpl {
 
-    public void login(String user, String password, Contract.LoginInteractorListener listener){
+    CompositeSubscription mCompositeSubscription = new CompositeSubscription();
+
+    public void onDeattach(){
+        if(mCompositeSubscription.hasSubscriptions()){
+            mCompositeSubscription.clear();
+        }
+    }
+
+    public void login(String user, String password, final Contract.LoginInteractorListener listener){
+
+        PersonRepository personRepository = new PersonRepository();
+        Subscription subscription = personRepository.getLogin(user, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userDataLogin -> listener.onLoginSuccess(userDataLogin),
+                        error ->listener.onLoginError(error)
+                        );
+
+        mCompositeSubscription.add(subscription);
+
         // Request
-        DummyLoginTask loginTask = new DummyLoginTask(user, password, listener);
-        loginTask.execute();
+        //DummyLoginTask loginTask = new DummyLoginTask(user, password, listener);
+        //loginTask.execute();
     }
 
 
-
+    /*
     private class DummyLoginTask extends AsyncTask<Void, Void, Boolean> {
         private String[] CREDENTIALS;
         private String user;
@@ -65,5 +87,5 @@ public class LoginInteractorImpl {
         public void onCancelled(){
             listener.onLoginError(new Exception());
         }
-    }
+    }*/
 }

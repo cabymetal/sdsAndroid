@@ -1,7 +1,7 @@
 package com.example.usuario.sdsandroid.sds.login;
 
+import com.example.usuario.api.pojo.UserDataLogin;
 import com.example.usuario.sdsandroid.sds.R;
-import com.example.usuario.sdsandroid.sds.common.SessionTO;
 import com.example.usuario.sdsandroid.sds.common.TextResourceManager;
 import com.example.usuario.sdsandroid.sds.common.Validator;
 import com.example.usuario.sdsandroid.sds.login.Contract.LoginView;
@@ -26,6 +26,7 @@ public class LoginPresenterImpl implements Contract.SdsLoginPresenter, Contract.
 
     @Override
     public void onDestroy(){
+        mLoginInteractor.onDeattach();
         this.mView = null;
     }
 
@@ -55,14 +56,19 @@ public class LoginPresenterImpl implements Contract.SdsLoginPresenter, Contract.
         mLoginInteractor.login(user, pwd, this);
     }
 
-    @Override
+    /*@Override
     public void onLoginSuccess(SessionTO sessionTO) {
         //TODO redirect to new view
         mView.startCore(sessionTO);
+    }*/
+    @Override
+    public void onLoginSuccess(UserDataLogin userDataLogin){
+        mView.startCore(userDataLogin);
     }
 
     @Override
-    public void onLoginError(Exception e) {
+    public void onLoginError(Throwable e) {
+        mView.setPwdError(mTextResourceManager.get(R.string.error_incorrect_password));
         mView.hideProgressDialog();
     }
 

@@ -2,11 +2,9 @@ package com.example.usuario.sdsandroid.sds.core.search;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +23,6 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
@@ -43,8 +40,6 @@ public class SearchActivity extends AppCompatActivity {
 
     public final String KEY_USER = "USER";
     public final String KEY_PWD = "PASSWORD";
-
-    @Bind(R.id.tabs) public TabLayout mTabLayout;
 
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -68,28 +63,17 @@ public class SearchActivity extends AppCompatActivity {
         Drawer result = createMenu(intent, mToolbar);
         result.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.fragment_container_element);
-        setupViewPager(viewPager);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
 
         //once the menu is built create the initial Fragment
         SearchFragment searchFragment = SearchFragment.newInstance(user, password);
 
         // In case this activity was started with special instructions from an
         // Intent, pass the Intent's extras to the fragment as arguments
-        // firstFragment.setArguments(getIntent().getExtras());
+        //firstFragment.setArguments(getIntent().getExtras());
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_element, searchFragment).commit();
     }
 
-    public void setupViewPager(ViewPager viewPager){
-        Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(SearchFragment.newInstance(user,password), "Datos");
-        adapter.addFragment(new ListCheckFragment(), "Listas");
-        viewPager.setAdapter(adapter);
-    }
 
     public void onSaveInstanceState(Bundle outState){
         outState.putString(KEY_USER, user);
@@ -99,17 +83,17 @@ public class SearchActivity extends AppCompatActivity {
 
     private Drawer createMenu(Intent intent, Toolbar toolbar){
         user = intent.getStringExtra("user");
-        password = intent.getStringExtra("pwd");
+        password = intent.getStringExtra("email");
 
         // create the account header
         AccountHeader  accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
+                .withHeaderBackground(R.drawable.bg_1)
                 .addProfiles( new ProfileDrawerItem()
                     .withName(user)
                     .withEmail(password).withIcon(getResources().getDrawable(R.drawable.sdslogo))
                 )
-                .withHeaderBackground(R.drawable.bg_1)
                 .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
                 .build();
 

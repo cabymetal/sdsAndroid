@@ -1,5 +1,7 @@
 package com.example.usuario.sdsandroid.sds.common;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import com.example.usuario.api.repositories.person.pojo.Coincidence;
 import com.example.usuario.api.repositories.person.pojo.Telephone;
 import com.example.usuario.sdsandroid.sds.R;
+import com.example.usuario.sdsandroid.sds.core.search.SearchDetailContent;
 
 import java.util.List;
 
@@ -40,6 +43,16 @@ public class CoincidenceAdapter extends RecyclerView.Adapter<CoincidenceAdapter.
             personName = (TextView)itemView.findViewById(R.id.name_coincidence);
             personNacionality = (TextView)itemView.findViewById(R.id.nacionality_coincidence);
             personPhone = (TextView) itemView.findViewById(R.id.phone_numbers_coincidence);
+
+            itemView.setOnClickListener((v)->{
+                Context context = v.getContext();
+                Intent intent = new Intent(context, SearchDetailContent.class);
+                intent.putExtra(SearchDetailContent.ID , personId.getText());
+                intent.putExtra(SearchDetailContent.NAME, personName.getText());
+                intent.putExtra(SearchDetailContent.NACIONALITY, personNacionality.getText());
+                intent.putExtra(SearchDetailContent.PHONE_NUMBERS, personPhone.getText());
+                context.startActivity(intent);
+            });
 
         }
 

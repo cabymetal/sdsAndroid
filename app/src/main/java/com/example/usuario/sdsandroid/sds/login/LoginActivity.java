@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.usuario.api.pojo.UserDataLogin;
 import com.example.usuario.sdsandroid.sds.R;
-import com.example.usuario.sdsandroid.sds.common.SessionTO;
 import com.example.usuario.sdsandroid.sds.common.TextResourceManager;
 import com.example.usuario.sdsandroid.sds.common.Validator;
 import com.example.usuario.sdsandroid.sds.core.search.SearchActivity;
@@ -160,10 +160,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void startCore(SessionTO sessionTO){
+    public void startCore(UserDataLogin userDataLogin){
         Intent intent = new Intent(this, SearchActivity.class);
-        intent.putExtra("user", sessionTO.getUser());
-        intent.putExtra("pwd", sessionTO.getPwd());
+        intent.putExtra("user", userDataLogin.getUser());
+        intent.putExtra("email", userDataLogin.getEmail());
+        intent.putExtra("username", userDataLogin.getUsername());
+        intent.putExtra("phone", userDataLogin.getPhone_number());
         startActivity(intent);
         finish();
     }

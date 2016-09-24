@@ -45,7 +45,6 @@ public class SearchDetailActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-
         Intent intent = getIntent();
         ResponseList responseList = intent.getParcelableExtra("XML_RESPONSE");
 

@@ -1,6 +1,6 @@
 package com.example.usuario.sdsandroid.sds.login;
 
-import com.example.usuario.sdsandroid.sds.common.SessionTO;
+import com.example.usuario.api.pojo.UserDataLogin;
 
 /**
  * Created by Carlos Murillo on 02/05/2016.
@@ -15,7 +15,7 @@ public interface Contract {
          void setShortError(String s);
 
          void setOnlyNumberError(String s);
-         void startCore(SessionTO sessionTO);
+         void startCore(UserDataLogin userDataLogin);
      }
 
      interface SdsLoginPresenter {
@@ -24,8 +24,8 @@ public interface Contract {
     }
 
     interface LoginInteractorListener{
-        void onLoginSuccess(SessionTO sessionTO);
-        void onLoginError(Exception e);
+        void onLoginSuccess(UserDataLogin userDataLogin);
+        void onLoginError(Throwable e);
 
         void onLoginFailedAuth();
     }
